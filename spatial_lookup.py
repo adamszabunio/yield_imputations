@@ -1,6 +1,3 @@
-from sklearn.neighbors import BallTree
-import numpy as np
-
 class K_Spatial_Neighbors:
     '''
     Using latitude and longitude, returns either the k nearest neighbors
@@ -16,6 +13,7 @@ class K_Spatial_Neighbors:
         self.coordinates = np.radians(coordinates) # convert to radians for haversine
         self.constant = constant
         self.ball_tree_index = BallTree(self.coordinates, metric='haversine')
+        self.sorted_distances = []
         
     def query_radius(self, query, radius, return_distance=True, sort_results=True):
         '''
@@ -34,11 +32,13 @@ class K_Spatial_Neighbors:
         return indices[0]
     
     
-    def query_k_neighbors(self, query, k, dualtree=True): 
+    def query_k_neighbors(self, query, k, dualtree=True, return_distances=False): 
         '''
         query: an array or Series of shape (2,) 
-        returns the sorted k nearest neighbors (including itself) 
-        NOTE: the first index is the same as the query (indices[1][0]) 
+        returns: indices --> indices[0] are the sorted distances (including distance
+        to self, indices[0][0])
+        indices[1] are the sorted k nearest neighbors (including itself)
+        NOTE: the first index is the same as the query ( and indices[1][0]) 
         from sklearn documentation: 
         if dualtree=True, use the dual tree formalism for the query: a tree is
         built for the query points, and the pair of trees is used to
@@ -46,15 +46,18 @@ class K_Spatial_Neighbors:
         performance as the number of points grows large.
         '''
         indices = self.ball_tree_index.query(X=[query], k=k+1, dualtree=dualtree)
-        return indices[1] # indices[0] are the sorted distances
+        if return_distances:
+            self.sorted_distances.append(indices[0])
+            
+        return indices # indices[0] are the sorted distances, indices[1] are the neighbors
     
     
-    def build_neighbors_table(self, k=5):
+    def build_neighbors_table(self, k=5, return_distances=False):
         
         neighbors_table = []
         
         for i in self.coordinates:
-            q = self.query_k_neighbors(query=i, k=5)
+            q = self.query_k_neighbors(query=i, k=5, return_distances)[1]
             neighbors_table.append(q[0][1:])
         
         return neighbors_table
@@ -69,5 +72,3 @@ class K_Spatial_Neighbors:
             radius_table.append(q[0][1:])
         
         return radius_table
-    
-    

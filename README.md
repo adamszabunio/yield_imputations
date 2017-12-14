@@ -41,15 +41,29 @@ However, this low estimate is quite deceiving. If our goal is to only include "f
 ### The Goal: 
 -------------
 
-Clearly, methods are required to impute these missing values. In this repository, imputation procedures are explored and analyzed. 
+Clearly, it would be beneficial for the us of predictive modeling if we were able to impute these missing values. In this repository, imputation procedures are explored and analyzed.
 
-Methods include:
+Baseline Methods:
 - Mean imputations
-- Forward (and Backward) Filling 
-- Linear Regression
-- Spatial approaches
-    - Weighted Distance Metrics
-    - Exponentially Smoothed Kernels
-    - k nearest neighbors algorithms
-        - k averaged neighbors
-        - radius 
+- Forward (and Backward) Filling
+
+Spatial methods include:
+- Weighted Distance Metrics (inverse distance)
+- Exponentially Smoothed Kernels
+- k nearest neighbor imputation
+- k averaged neighbors 
+- k distance-weighted-average neighbors  
+
+Temporal Methods include:
+- Linear Regression (Individual sample predictions)
+- Linear Regression (Full Data predictions)
+
+Spatial and Temporal Methods: 
+- Exponentially Weighted Linear Regression
+
+### Results: 
+------------
+
+
+### Next Steps:
+----------------
