@@ -38,14 +38,16 @@ And California yet another:
 
 At first glance the enitre dataset, doesn't look all that bad. Roughly a quarter of the data is missing. 
 ![](images/full_heatmap.png?raw=true)
-- However, this low estimate is quite deceiving. If our goal is to only include "full" data, i.e. samples with all 47 features (years in this case), then the true figure is much lower than 25%. 
-- Considering only complete observations leads to an immense loss of information, ≈70% of this dataset.
+- However, this low estimate is quite deceiving. If our goal is to only include "full" data, i.e. samples with all 47 features (years in this case), then the true figure is much lower than 24%. 
+- Considering only complete observations leads to an immense loss of information, ≈70% of this dataset. 
 
 
 ### The Goal: 
 -------------
+Below we see the additional gain for each year of data imputed. For instance, if we were able to impute only one year of data, we have nearly 10% additional complete data. This increases our 30% of complete data, from 814 counties to 1071 counties, an increase of over 24%!
+![](images/cumulative_sum.png?raw=true)
 
-Clearly, it would be beneficial for the us of predictive modeling if we were able to impute these missing values. In this repository, imputation procedures are explored and analyzed.
+Clearly, it would be beneficial for predictive modeling if we were able to impute these missing values. In this repository, imputation procedures are explored and analyzed.
 
 Baseline Methods:
 - Mean imputations
