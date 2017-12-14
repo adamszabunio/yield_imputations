@@ -12,7 +12,7 @@
 - Using a [python script](get_data.py) historical yield data is queried at the county level from 1970 - 2016. 
 - Cleaning and EDA (Exploratory Data Analysis) is conducted for both [CORN](corn_EDA.ipynb) and [SOYBEANS](soybeans.ipynb)
 
-### [Map of Data Completeness](https://s3.amazonaws.com/yieldimputations/counties_chloropleth_layers_40.html)
+## [Interactive Map of Data Completeness can be found here](https://s3.amazonaws.com/yieldimputations/counties_chloropleth_layers_40.html)
 
 ![](images/year_counts.png?raw=true)
 
@@ -21,13 +21,14 @@
 - In this case, it is hard to imagine a scenario where you would need only 47 consecutive years of data and would settle for nothing less. However, if we generalize the problem to a dataset with 47 independent variables (columns) and 2768 samples (rows), a [[2768 X 47]] matrix, then we can approach it as any dataset that we would like to model. 
     - A majority of machine learning models/algorithms depend on complete data.
     - What methods can you think of off the top of your head to replace these values?
-
+----
 Heatmaps are a useful tool used for visualizing a range of values within datasets (the color bar on the right of the below heat maps denotes crop yield values). 
 
 Additionally, heatmaps help to visualize where we have missing values.
 
-Taking a closer look at Iowa, we notice their are only 4 missing values:
+Taking a closer look at Iowa, we notice there are only 4 missing values (the 4 white pixels for the year of 2015):
 ![](images/IA_heatmap.png?raw=true)
+* fips (Federal Information Processing Standards) codes uniquely identify counties in the United States. Similar to zipcodes. 
 
 Alabama tells another story:
 ![](images/AL_heatmap.png?raw=true)
@@ -37,7 +38,8 @@ And California yet another:
 
 At first glance the enitre dataset, doesn't look all that bad. Roughly a quarter of the data is missing. 
 ![](images/full_heatmap.png?raw=true)
-However, this low estimate is quite deceiving. If our goal is to only include "full" data, i.e. samples with all 47 features (years in this case), then the true figure is a shocking. Considering only complete observations leads to an immense loss of information, ≈70% of this dataset.
+- However, this low estimate is quite deceiving. If our goal is to only include "full" data, i.e. samples with all 47 features (years in this case), then the true figure is much lower than 25%. 
+- Considering only complete observations leads to an immense loss of information, ≈70% of this dataset.
 
 
 ### The Goal: 
