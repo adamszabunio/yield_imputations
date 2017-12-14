@@ -3,7 +3,7 @@
 ### Introduction:
 -----------------
 - The project explores a variety of techniques to impute missing values. 
-- These experiments were conducted during an Internship for [Granular](www.granular.ag) with the goal of increasing the company's model predictions by filling in missing data.
+- These experiments were conducted during an Internship for [Granular](www.granular.ag) with the goal of increasing the company's predictive modeling for datasets with missing data.
 
 
 ### The Data:
@@ -12,17 +12,19 @@
 - Using a [python script](get_data.py) historical yield data is queried at the county level from 1970 - 2016. 
 - Cleaning and EDA (Exploratory Data Analysis) is conducted for both [CORN](corn_EDA.ipynb) and [SOYBEANS](soybeans.ipynb)
 
-[Map of Data Completeness](https://s3.amazonaws.com/yieldimputations/counties_chloropleth_layers_40.html)
+### [Map of Data Completeness](https://s3.amazonaws.com/yieldimputations/counties_chloropleth_layers_40.html)
 
 ![](images/year_counts.png?raw=true)
 
 - As can be seen from the map and barchart above, complete data is spatialy correlated, and comprises less than a third of the dataset. 
 
-- In this case, it is hard to imagine a scenario where you would need only 47 consecutive years of data and would settle for nothing less. However, if we generalize the problem to a dataset with 47 independent variables (columns) and 2768 samples (rows), a $2768\times47$ matrix, then we can approach it as any dataset that we would like to model. 
+- In this case, it is hard to imagine a scenario where you would need only 47 consecutive years of data and would settle for nothing less. However, if we generalize the problem to a dataset with 47 independent variables (columns) and 2768 samples (rows), a [[2768 X 47]] matrix, then we can approach it as any dataset that we would like to model. 
     - A majority of machine learning models/algorithms depend on complete data.
     - What methods can you think of off the top of your head to replace these values?
 
-Heatmaps are a useful tool to visualize not only the range of values within datasets, but also to see where we have missing values.
+Heatmaps are a useful tool used for visualizing a range of values within datasets (the color bar on the right of the below heat maps denotes crop yield values). 
+
+Additionally, heatmaps help to visualize where we have missing values.
 
 Taking a closer look at Iowa, we notice their are only 4 missing values:
 ![](images/IA_heatmap.png?raw=true)
