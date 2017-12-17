@@ -37,6 +37,13 @@ full_HAV_EXP2_LR.columns = full_HAV_EXP2_LR.columns.astype(int)
 ############################
 
 
+
+def mape(y_pred,y_true):
+    y_pred = np.asarray(y_pred)
+    y_true = np.asarray(y_true)
+    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+
 pop_list = np.random.randint(1970,2017, full_data.shape[0])
 true = [full_data.iloc[i][yr] for i, yr in enumerate(pop_list)]
 
