@@ -178,6 +178,7 @@ all_predictions, all_metrics = bootstrap()
 iterations = 1000
 
 for bs in range(iterations):
+    print(bs)
     predictions, metrics = bootstrap()
     all_metrics = all_metrics.join(metrics, rsuffix=bs+1)
     all_predictions = all_predictions.join(predictions, rsuffix=bs+1)  

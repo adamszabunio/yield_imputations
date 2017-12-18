@@ -49,26 +49,34 @@ Below we see the additional gain for each year of data imputed. For instance, if
 
 Clearly, it would be beneficial for predictive modeling if we were able to impute these missing values. In this repository, imputation procedures are explored and analyzed.
 
-Baseline Methods:
+Baseline and Temporal Methods:
 - Mean imputations
 - Forward (and Backward) Filling
+- Linear Regression (Individual county predictions)
 
-Spatial methods include:
-- Weighted Distance Metrics (inverse distance)
+Spatial Methods:
+- Weighted Distance Metrics (Inverse Haversine distance)
 - Exponentially Smoothed Kernels
 - k nearest neighbor imputation
 - k averaged neighbors 
 - k distance-weighted-average neighbors  
 
-Temporal Methods include:
-- Linear Regression (Individual sample predictions)
-- Linear Regression (Full Data predictions)
-
 Spatial and Temporal Methods: 
-- Exponentially Weighted Linear Regression
+- Linear Regression (Full data predictions)
+- Linear Regression (Inverse Haversine distance)
+- Exponentially Weighted Linear Regression (Haversine distance)
 
 ### Results: 
 ------------
+Work in progress 
+
+![](images/all_bootstrap_preds_mae.png?raw=true)
+
+![](images/all_bootstrap_preds_mape.png?raw=true)
+
+![](images/all_bootstrap_preds_rmse.png?raw=true)
+
+![](images/all_bootstrap_preds_r2.png?raw=true)
 
 
 ### Next Steps:
