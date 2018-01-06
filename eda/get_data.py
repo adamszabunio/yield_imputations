@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pandas as pd
 from datetime import date
 import statsmodels.formula.api as sm

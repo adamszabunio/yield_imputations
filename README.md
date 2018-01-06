@@ -3,16 +3,16 @@
 ### Introduction:
 -----------------
 - The project explores a variety of techniques to impute missing values. 
-- These experiments were conducted during an Internship for [Granular](www.granular.ag) with the goal of increasing the company's predictive modeling for datasets with missing data.
-
+- These experiments were conducted during an Internship for [Granular](www.granular.ag) with the goal of increasing the company's predictive modeling accuracy for datasets with missing data.
+- The techniques used include a variety of spatial and temporal methods. (Described below under the "Goal" heading.
 
 ### The Data:
 -------------
 - Data is queried from [NASS quick stats](https://quickstats.nass.usda.gov/) for two crops, Corn and Soybeans.
-- Using a [python script](get_data.py) historical yield data is queried at the county level from 1970 - 2016. 
-- Cleaning and EDA (Exploratory Data Analysis) is conducted for both [CORN](corn_EDA.ipynb) and [SOYBEANS](soybeans.ipynb)
+- Using a [python script](eda/get_data.py) historical yield data is queried at the county level from 1970 - 2016. 
+- [Cleaning and EDA (Exploratory Data Analysis)](eda/) is conducted for both [CORN](eda/corn_EDA.ipynb) and [SOYBEANS](eda/soybeans.ipynb)
 
-## [Interactive Map of Data Completeness can be found here](https://s3.amazonaws.com/yieldimputations/counties_chloropleth_layers_40.html)
+## Interactive Map of Data Completeness [can be found HERE](https://s3.amazonaws.com/yieldimputations/counties_chloropleth_layers_40.html)
 
 ![](images/year_counts.png?raw=true)
 
@@ -68,7 +68,22 @@ Spatial and Temporal Methods:
 
 ### Results: 
 ------------
-Work in progress 
+Work in progress...
+
+- To evaluate the accuracy of the spatial and more advanced temporal methods, the first step was to create Baseline methods.
+- The second step was to choose accuracy metrics. 
+
+For baseline methods, I chose three standard methods for interpolating missing data:
++ Forward-filling (and back-filling, when the missing data point was the first (yr 1970)
++ Mean imputation 
+    + per county mean (across years; 1970-2016)
+    + per year mean (across counties)
++ Vanilla linear regression to interpolate the missing point.
+
+I hypothesized all three of these methods would return poor results. If it doesn't immeadiately stick out to you, this image will help to show  why the per county mean and forward fill methods are bad decisions:
+
+IMAGE DEPICTING LINEAR TREND OF DATA
+
 
 ![](images/all_bootstrap_preds_mae.png?raw=true)
 
