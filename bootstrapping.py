@@ -6,41 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import DistanceMetric, BallTree
 
 
-# load full data 
-full_data = pd.read_csv("ts_corn_47yr_df.csv")
-full_data.fips_code = full_data.fips_code.astype(str).apply(lambda x: x.zfill(5))
-full_data.set_index('fips_code', inplace=True)
-full_data.columns = full_data.columns.astype(int)
-# load county centroids (inner join with the data)
-centroids_df = pd.read_csv("county_centroids.csv", index_col=0)
-centroids_df.fips_code = centroids_df.fips_code.astype(str).apply(lambda x: x.zfill(5))
-centroids_df.set_index('fips_code', inplace=True)
-full_data_centroids = full_data.join(centroids_df) 
-full_spatial = full_data_centroids[['latitude', 'longitude']]
-# create haversine distance df (only needs to be done once)
-full_hav_df = np.radians(full_spatial)
-dist = DistanceMetric.get_metric("haversine")
-hav_dist_df = pd.DataFrame(dist.pairwise(full_hav_df))
-
-# load predictions from FULL linear regression models 
-# will be used for indexing later
-full_LR = pd.read_csv("lin_reg_preds.csv", index_col="fips_code")
-full_LR.columns = full_LR.columns.astype(int)
-
-full_HAV_LR = pd.read_csv("lin_reg_haversine_norm_preds.csv", index_col="fips_code")
-full_HAV_LR.columns = full_HAV_LR.columns.astype(int)
-
-full_HAV_EXP2_LR = pd.read_csv("lin_reg_hav_norm_exp2_df.csv", index_col="fips_code")
-full_HAV_EXP2_LR.columns = full_HAV_EXP2_LR.columns.astype(int)
-
-# load nearest neighbors and distances
-neigh_table = pd.read_csv("k10neighbors.csv", index_col=0)
-neigh_dist = pd.read_csv("k10_distances.csv", index_col=0)
-
-counties = full_data.shape[0]
-
-# useful functions 
-def k_neighbors(k, pop_list, s=1): 
+def k_neighbors(k, pop_list, counties, s=1): 
     kN_mean_preds, kN_weighted_preds = [], []
     for i in range(counties):
         neighbors = []
@@ -53,12 +19,12 @@ def k_neighbors(k, pop_list, s=1):
         
     return kN_mean_preds, kN_weighted_preds
 
-def mape(y_pred,y_true):
+def mape(y_pred, y_true):
     y_pred = np.asarray(y_pred)
     y_true = np.asarray(y_true)
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
-def bootstrap():
+def bootstrap(counties):
     # create random test set
     pop_list = np.random.randint(1970,2017, full_data.shape[0])
     true = [full_data.iloc[i][yr] for i, yr in enumerate(pop_list)]
@@ -127,13 +93,13 @@ def bootstrap():
         n = full_data.iloc[neigh_table.iloc[i][0]][pop_list[i]]
         kN1_preds.append(n)
 
-    kN2_mean_preds, kN2_weighted_preds = k_neighbors(2, pop_list)
-    kN3_mean_preds, kN3_weighted_preds = k_neighbors(3, pop_list)
-    kN4_mean_preds, kN4_weighted_preds = k_neighbors(4, pop_list)
-    kN5_mean_preds, kN5_weighted_preds = k_neighbors(5, pop_list)
-    kN10_mean_preds, kN10_weighted_preds = k_neighbors(10, pop_list)
-    _, kN5_exp2weighted_preds = k_neighbors(5, pop_list, s=2)
-    _, kN10_exp2weighted_preds = k_neighbors(10, pop_list, s=2)
+    kN2_mean_preds, kN2_weighted_preds = k_neighbors(2, pop_list, counties)
+    kN3_mean_preds, kN3_weighted_preds = k_neighbors(3, pop_list, counties)
+    kN4_mean_preds, kN4_weighted_preds = k_neighbors(4, pop_list, counties)
+    kN5_mean_preds, kN5_weighted_preds = k_neighbors(5, pop_list, counties)
+    kN10_mean_preds, kN10_weighted_preds = k_neighbors(10, pop_list, counties)
+    _, kN5_exp2weighted_preds = k_neighbors(5, pop_list, counties, s=2)
+    _, kN10_exp2weighted_preds = k_neighbors(10, pop_list, counties, s=2)
 
     predictions["k1_pred"] = kN1_preds
     predictions["k2_mean_pred"] = kN2_mean_preds
@@ -172,19 +138,53 @@ def bootstrap():
                                  index=[col.upper() for col in pred_cols])
         
     return predictions, metrics
-      
-all_predictions, all_metrics = bootstrap()
+
+
+# load full data 
+full_data = pd.read_csv("ts_corn_47yr_df.csv")
+full_data.fips_code = full_data.fips_code.astype(str).apply(lambda x: x.zfill(5))
+full_data.set_index('fips_code', inplace=True)
+full_data.columns = full_data.columns.astype(int)
+# load county centroids (inner join with the data)
+centroids_df = pd.read_csv("county_centroids.csv", index_col=0)
+centroids_df.fips_code = centroids_df.fips_code.astype(str).apply(lambda x: x.zfill(5))
+centroids_df.set_index('fips_code', inplace=True)
+full_data_centroids = full_data.join(centroids_df) 
+full_spatial = full_data_centroids[['latitude', 'longitude']]
+# create haversine distance df (only needs to be done once)
+full_hav_df = np.radians(full_spatial)
+dist = DistanceMetric.get_metric("haversine")
+hav_dist_df = pd.DataFrame(dist.pairwise(full_hav_df))
+
+# load predictions from FULL linear regression models 
+# will be used for indexing later
+full_LR = pd.read_csv("lin_reg_preds.csv", index_col="fips_code")
+full_LR.columns = full_LR.columns.astype(int)
+
+full_HAV_LR = pd.read_csv("lin_reg_haversine_norm_preds.csv", index_col="fips_code")
+full_HAV_LR.columns = full_HAV_LR.columns.astype(int)
+
+full_HAV_EXP2_LR = pd.read_csv("lin_reg_hav_norm_exp2_df.csv", index_col="fips_code")
+full_HAV_EXP2_LR.columns = full_HAV_EXP2_LR.columns.astype(int)
+
+# load nearest neighbors and distances
+neigh_table = pd.read_csv("k10neighbors.csv", index_col=0)
+neigh_dist = pd.read_csv("k10_distances.csv", index_col=0)
+
+counties = full_data.shape[0]
+
+all_predictions, all_metrics = bootstrap(counties)
 
 iterations = 1000
 
 for bs in range(iterations):
-    print(bs)
-    predictions, metrics = bootstrap()
+    print("Iteration {}".format(bs + 1))
+    predictions, metrics = bootstrap(counties)
     all_metrics = all_metrics.join(metrics, rsuffix=bs+1)
     all_predictions = all_predictions.join(predictions, rsuffix=bs+1)  
         
-all_metrics.to_csv("bootstrap_corn_metrics.csv")
-all_predictions.to_csv("bootstrap_corn_predicitions.csv")
+all_metrics.to_csv("data/bootstrap_corn_metrics.csv")
+all_predictions.to_csv("data/bootstrap_corn_predicitions.csv")
 
 
 
