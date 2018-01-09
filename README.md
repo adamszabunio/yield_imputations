@@ -100,12 +100,15 @@ I hypothesized all three of these methods would return poor results. If it doesn
 Here are three examples as to why Linear Regression, using the county mean values, and forward filling are going to produce poor predictions.
 
 Papa Bear:
+
 ![](images/lr_ex_fip_21231.png?raw=true)
 
 Mama Bear:
+
 ![](images/lr_ex_fip_31137.png?raw=true)
 
 Baby Bear:
+
 ![](images/lr_ex_fip_39099.png?raw=true)
 
 
