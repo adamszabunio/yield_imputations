@@ -93,11 +93,16 @@ For baseline methods, I chose three standard methods for interpolating missing d
     + per year mean (across counties)
 + Vanilla linear regression to interpolate the missing point.
 
-I hypothesized all three of these methods would return poor results. If it doesn't immeadiately stick out to you, this image will help to show  why the per county mean and forward fill methods are bad decisions:
+I hypothesized all three of these methods would return poor results. If it doesn't immeadiately stick out to you, the below images will help to show why the per county mean and forward fill methods are bad decisions.
 
-### IMAGES DEPICTING LINEAR TREND OF DATA:
+### Images Depicting Linear Trend of Data:
+----
+- Here are three examples as to why Linear Regression, using the county mean values, and forward filling are going to produce poor predictions.
+Papa Bear:
 ![](images/lr_ex_fip_21231.png?raw=true)
+Mama Bear:
 ![](images/lr_ex_fip_31137.png?raw=true)
+Baby Bear:
 ![](images/lr_ex_fip_39099.png?raw=true)
 
 
