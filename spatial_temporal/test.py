@@ -31,13 +31,4 @@ def get_haversine_dist(spatial_df, constant=3958.75, normalize=False, smooth=Fal
         norms = [sum(hav_dist_df.iloc[i]) for i in hav_dist_df.columns.values]
         assert(np.allclose(ones, norms))
     
-    return hav_dist_df
-
-
-def impute(county_yields_df, dist_df, radius=100, k=5):
-    
-    
-    
-    
-    
-    
+    return hav_dist_df    
