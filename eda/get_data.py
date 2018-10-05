@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 import pandas as pd
 from datetime import date
-import statsmodels.formula.api as sm
-import numpy as np
+from sys import argv
 from os.path import expanduser, isdir, join
 from os import mkdir
-import yaml
+from yaml import load
 from nass import NassApi
 
 
@@ -47,14 +46,14 @@ def get_nass_yields(crop, save_dir, min_year, max_year=None):
     return clean_df
 
 # arguments
-credentials = yaml.load(open(expanduser('~/.scripts/credentials.yml')))
+credentials = load(open(expanduser('~/.scripts/credentials.yml')))
 nass_key = credentials['nass_api_key']
-target_crop = 'corn'
+target_crop = str(argv[1]) #'corn'
 save_dir = '/Users/adamszabunio/Desktop/NASS_raw_data/{}/'.format(target_crop)
 if not isdir(save_dir):
     mkdir(save_dir)
-min_yield_year = 1970
-max_yield_year = 1974
+min_yield_year = int(argv[2]) #1970
+max_yield_year = int(argv[3]) #1974
 
 # get nass yield data
 get_nass_yields(target_crop, save_dir, min_yield_year, max_yield_year)

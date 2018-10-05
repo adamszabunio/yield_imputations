@@ -1,0 +1,20 @@
+# Create environment:
+# $ conda env create --force
+name: stats_geo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.6
+  - ipython
+  - jupyter
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - plotly
+  - scikit-learn
+  - scikit-image
+  - pyyaml
+  - pip
+  - pip:
+    - nass
