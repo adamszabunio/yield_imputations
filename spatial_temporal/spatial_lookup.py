@@ -1,4 +1,4 @@
-import numpy as np
+from numpy import radians
 from sklearn.neighbors import BallTree
 
 class K_Spatial_Neighbors:
@@ -15,7 +15,7 @@ class K_Spatial_Neighbors:
         if choosing to query with kilometers, set constant=6367
     '''
     def __init__(self, coordinates, constant=3958.75):
-        self.coordinates = np.radians(coordinates) # convert to radians for haversine
+        self.coordinates = radians(coordinates) # convert to radians for haversine
         self.constant = constant
         self.ball_tree_index = BallTree(self.coordinates, metric='haversine')
         self.srt_dist = []
