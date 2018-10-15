@@ -59,22 +59,29 @@ class K_Spatial_Neighbors:
         if return_distances:
             self.srt_dist.append(indices[0][0][1:] *self.constant)
             
-        return indices # indices[0] are the sorted distances, indices[1] are the neighbors
+        return indices # indices[0] --> sorted distances, indices[1] --> neighbors
     
     
     def build_neighbors_table(self, k=5, ret_dist=False):
-        
+        '''
+        builds a table of `k` nearest neighbors for each coordinate pair
+        if ret_dist: appends distances to self.srt_dist
+        '''
+        assert len(self.coordinates) > k 
         neighbors_table = []
         
         for i in self.coordinates:
             q = self.query_k_neighbors(query=i, k=k, return_distances=ret_dist)[1]
-            neighbors_table.append(q[0][1:])
-        
+            neighbors_table.append(q[0][1:]) # append the k-nearest
+         
         return neighbors_table
 
     
     def build_radius_table(self, radius=100):
-        
+        '''
+        builds a table of n nearest neighbors for each coordinate pair
+        within a specified radius (default = miles)
+        '''
         radius_table = []
 
         for i in self.coordinates:
